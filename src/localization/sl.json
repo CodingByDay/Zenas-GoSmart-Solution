@@ -1,0 +1,30 @@
+{
+    "username": "Uporabniško ime",
+    "password": "Geslo",
+    "loginButton": "Prijava",
+    "serverUrlLabel": "Naslov strežnika",
+    "serverUrlPlaceholder": "Vnesite naslov strežnika",
+    "saveSettings": "Shrani",
+    "clientProperty": "Klient:",
+    "descriptionProperty": "Opis:",
+    "plannedDateProperty": "Planirani datum:",
+    "plannedHours": "Planirane ure",
+    "actualHours": "Porabljene ure",
+    "engineeringHours": "Inženiring ure",
+    "technicalHours": "Tehnične ure",
+    "roadwayHours": "Čas na poti",
+    "afternoonHours": "Popoldanske ure",
+    "nightlyHours": "Nočne/vikend/praznik ure",
+    "problemDescription": "Opis težave",
+    "workDescription": "Opis dela",
+    "agreementDescription": "Dogovor",
+    "taskId": "Poseg",
+    "searchPlaceholder": "Išči...",
+    "planDateTime": "Plan",
+    "actualDate": "Izvedeno",
+    "datePicker": "Izberite",
+    "wrongInput": "Nepravilni podatki",
+    "alert": "Obvestilo"
+
+
+}

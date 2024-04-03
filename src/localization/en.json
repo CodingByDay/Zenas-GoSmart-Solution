@@ -1,0 +1,35 @@
+{
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Login",
+    "serverUrlLabel": "Server URL",
+    "serverUrlPlaceholder": "Enter the server URL",
+    "saveSettings": "Save Settings",
+    "clientProperty": "Client:",
+    "descriptionProperty": "Description:",
+    "plannedDateProperty": "Planned Date:",
+    "plannedHours": "Planned hours",
+    "actualHours": "Actual hours",
+    "engineeringHours": "Engineering Hours",
+    "technicalHours": "Technical Hours",
+    "roadwayHours": "Roadway Hours",
+    "afternoonHours": "Afternoon Hours",
+    "nightlyHours": "Nightly Hours",
+    "problemDescription": "Problem",
+    "workDescription": "Work",
+    "agreementDescription": "Agreement",
+    "taskId": "Task",
+    "searchPlaceholder": "Search...",
+    "planDateTime": "Plan",
+    "actualDate": "Actual",
+    "datePicker": "Choose",
+    "wrongInput": "Wrong input provided",
+    "alert": "Alert"
+
+
+
+
+
+}
+
+
