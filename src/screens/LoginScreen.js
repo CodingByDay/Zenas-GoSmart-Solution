@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { initializeApp, changeLanguage, getSavedLanguage, saveSessionId } from '../storage/Persistence';
 import { checkSessionValidity, login, setInit } from '../api/api';
+import SplashScreen from 'react-native-splash-screen';
 
 
 
@@ -18,6 +19,10 @@ const LoginScreen = () => {
   const shakeAnimation = useRef(new Animated.Value(0)).current;
   const [loader, setLoader] = useState(false);
   useEffect( () => {
+
+
+    SplashScreen.hide();
+
 
     initializeApp(i18n);
 
