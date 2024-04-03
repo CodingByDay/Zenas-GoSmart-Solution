@@ -54,8 +54,7 @@ export default function App() {
           name="Login" 
           component={LoginScreen} 
           options={({ navigation }) => ({ 
-            title: 'Login',
-            headerTitle: 'Zenas GoSmart Solution',
+            headerTitle: 'Zenas GoSmart',
             headerTitleAlign: 'center',
             headerRight: () => (
 
@@ -74,7 +73,8 @@ export default function App() {
           name="Dashboard"
           component={DashboardScreen} 
           options={({ navigation }) => ({ 
-            headerTitle: 'Zenas GoSmart Solution',
+            title: 'Dashboardwr',
+            headerTitle: 'Zenas GoSmart',
             headerTitleAlign: 'center',
           })}
           />
@@ -82,7 +82,7 @@ export default function App() {
           name="Settings" 
           component={SettingsScreen}
           options={({ navigation }) => ({ 
-            headerTitle: 'Zenas GoSmart Solution',
+            headerTitle: 'Zenas GoSmart',
             headerTitleAlign: 'center',
           })}
           />
@@ -92,7 +92,7 @@ export default function App() {
           name="Task" 
           component={TaskScreen}
           options={({ navigation }) => ({ 
-            headerTitle: 'Zenas GoSmart Solution',
+            headerTitle: 'Zenas GoSmart',
             headerTitleAlign: 'center',
           })}
           />

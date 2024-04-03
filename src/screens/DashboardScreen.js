@@ -1,6 +1,6 @@
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import DashboardActions from '../components/DashboardActions';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useLayoutEffect } from 'react';
 import { getOwnTasks, getTaskDetails } from '../api/api';
 import Search from '../components/Search';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +23,8 @@ const DashboardScreen = ({ navigation }) => {
 
     return unsubscribe;
   }, [navigation, fetchTasks]);
+
+
 
   const handleSearchChange = (query) => {
     setSearchQuery(query);
@@ -55,7 +57,6 @@ const DashboardScreen = ({ navigation }) => {
           <Icon name="logout" size={30} color="black" />
         </TouchableOpacity>
       ),
-      headerTitle: 'Dashboard', // Customize header title if needed
     });
   }, [navigation]);
 
