@@ -21,12 +21,12 @@ const ToggleGroup = ( { setDescriptionStates, workDescription, problemDescriptio
   const [inputValue, setInputValue] = useState('');
 
   const handleButtonPress = (label) => {
-    if(label === "problemDescription") {
-        setInputValue(problemDescription);
-        setActiveState("problemDescription");
-    } else if(label === "workDescription") {
+    if(label === "workDescription") {
         setInputValue(workDescription);
         setActiveState("workDescription");
+    } else if(label === "problemDescription") {
+        setInputValue(problemDescription);
+        setActiveState("problemDescription");
     } 
     setActiveButton(label);
   };
@@ -49,9 +49,9 @@ const ToggleGroup = ( { setDescriptionStates, workDescription, problemDescriptio
         />
 
         <ButtonToggle
-          label={t('agreementDescription')}
-          onPress={() => handleButtonPress('agreementDescription')}
-          isActive={activeButton === 'agreementDescription'}
+          label={t('problemDescription')}
+          onPress={() => handleButtonPress('problemDescription')}
+          isActive={activeButton === 'problemDescription'}
         />
 
        

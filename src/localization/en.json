@@ -24,7 +24,8 @@
     "actualDate": "Actual",
     "datePicker": "Choose",
     "wrongInput": "Wrong input provided",
-    "alert": "Alert"
+    "alert": "Alert",
+    "error": "Error has occured."
 
 
 

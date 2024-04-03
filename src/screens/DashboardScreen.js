@@ -80,7 +80,7 @@ const DashboardScreen = ({ navigation }) => {
         <View style={styles.taskInfoRow}>
           <Text style={styles.taskInfoLabel}>{t('plannedDateProperty')}</Text>
           <Text style={styles.taskInfoValue}>{plannedDate.toISOString().split('T')[0]}</Text>
-          <Icon name="clock" size={30}  color={'black'}/>
+          <Icon name="access-time" size={30}  color={'black'}/>
         </View>
       </TouchableOpacity>
     );

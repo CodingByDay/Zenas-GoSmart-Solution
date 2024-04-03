@@ -24,7 +24,9 @@
     "actualDate": "Izvedeno",
     "datePicker": "Izberite",
     "wrongInput": "Nepravilni podatki",
-    "alert": "Obvestilo"
+    "alert": "Obvestilo",
+    "error": "Prišlo je do napake."
+
 
 
 }

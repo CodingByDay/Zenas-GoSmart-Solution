@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next'; 
 import { getRootUrl, saveRootUrl } from '../storage/Persistence';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const SettingsScreen = () => {
 
@@ -46,10 +47,14 @@ const SettingsScreen = () => {
           onChangeText={text => setServerUrl(text)}
         />
       </View>
+      <TouchableOpacity
+            style={styles.saveButton} 
+            onPress={handleSaveSettings}
+            >
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSaveSettings}>
-        <Text style={styles.saveButtonText}>{t('saveSettings')}</Text>
+            <Icon name="save-alt" size={30}  color={'white'} />
       </TouchableOpacity>
+
 
     </View>
   );

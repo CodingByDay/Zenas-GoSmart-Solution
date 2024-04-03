@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next'; 
 import { getRootUrl, saveRootUrl } from '../storage/Persistence';
 import { getTaskDetails, getTimeUsage, finishTaskCall } from '../api/api';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Icon from 'react-native-vector-icons/Foundation';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import TaskTime from '../components/TaskTime';
 import ButtonGroup from '../components/ButtonGroup';
 import TimeFields from '../components/TimeFields';
-
 const TaskScreen = ({ route }) => {
   const navigation = useNavigation();
   const [task, setTask] = useState('');
@@ -25,11 +24,12 @@ const TaskScreen = ({ route }) => {
   const [timeFields, setTimeFields] = useState([]);
 
   useEffect(() => {
+
     const fetchTask = async () => {
       try {
         const task = await getTaskDetails(taskId);
         setTask(task);
-        setProblemDescription(task.WorkPerformed)
+        setProblemDescription(task.Description)
         const timeFields = await getTimeUsage();
         setTimeFields(timeFields);
       } catch (error) {
@@ -61,7 +61,7 @@ const TaskScreen = ({ route }) => {
         const used = field.Used;
         const decimalValue = parseFloat(used);     
         if (isNaN(decimalValue)) {
-            alert(t('alert'), t('wrongInput'));
+            Alert.alert(t('alert'), t('wrongInput'));
             return; 
         } else {
             toUpdate.push(field);
@@ -76,15 +76,14 @@ const TaskScreen = ({ route }) => {
     if (response == "OK") {
       navigation.navigate("Dashboard");
     } else {
-      alert("Error")
+      Alert.alert(t('alert'), t('error'));
     }
   }
 
   const setActiveState = (activeButton) => {
-
     if(activeButton === "workDescription") {
       setEnabled(true);
-    } else if(activeButton === "agreementDescription") {
+    } else if(activeButton === "problemDescription") {
       setEnabled(false);
     } 
   }
@@ -149,7 +148,7 @@ const TaskScreen = ({ route }) => {
             onPress={() => {finishTask()}}
             >
 
-            <Icon name="archive" size={30}  color={'white'} />
+            <Icon name="save-alt" size={30}  color={'white'} />
             </TouchableOpacity>
 
 
