@@ -23,9 +23,10 @@
     "planDateTime": "Plan",
     "actualDate": "Izvedeno",
     "datePicker": "Izberite",
-    "wrongInput": "Nepravilni podatki",
+    "wrongInput": "Nepravilni podatki.",
     "alert": "Obvestilo",
-    "error": "Prišlo je do napake."
+    "error": "Prišlo je do napake.",
+    "version": "Verzija"
 
 
 

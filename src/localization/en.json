@@ -23,9 +23,11 @@
     "planDateTime": "Plan",
     "actualDate": "Actual",
     "datePicker": "Choose",
-    "wrongInput": "Wrong input provided",
+    "wrongInput": "Wrong input provided.",
     "alert": "Alert",
-    "error": "Error has occured."
+    "error": "Error has occured.",
+    "version": "Version"
+
 
 
 

@@ -54,8 +54,9 @@ const TaskScreen = ({ route }) => {
   };
   
   const finishTask = async () => {
-    let toUpdate = [];
 
+    let toUpdate = [];
+    let defined = 0;
     timeFields.forEach(field => {
       if (field.Used !== undefined && field.Used !== '') {
         const used = field.Used;
@@ -64,10 +65,17 @@ const TaskScreen = ({ route }) => {
             Alert.alert(t('alert'), t('wrongInput'));
             return; 
         } else {
+            defined += 1;
             toUpdate.push(field);
         }
-      }
+      } 
     });
+
+    if(defined === 0) {
+      Alert.alert(t('alert'), t('wrongInput'));
+      return;
+    }
+
     let usedHours = [];
     toUpdate.forEach(field => {
       usedHours.push({TimeUsageTypeGuid: field.TimeUsageTypeGuid, UsedHours: field.Used})

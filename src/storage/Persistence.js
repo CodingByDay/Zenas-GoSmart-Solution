@@ -5,7 +5,7 @@ import { setInit } from '../api/api';
 export const getSavedLanguage = async () => {
   try {
     const savedLanguage = await AsyncStorage.getItem('selectedLanguage');
-    return savedLanguage;
+    return savedLanguage ?? "sl";
   } catch (error) {
     return "sl";
   }
