@@ -29,6 +29,7 @@
     "version": "Verzija",
     "saveTask": "Shrani",
     "finishTask": "Zaključi",
-    "implementedTime": "Izvedeno"
+    "implementedTime": "Izvedeno",
+    "plannedHour": "Planirano"
 
 }

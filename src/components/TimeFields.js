@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next'; 
 
-const TimeFields = ({ timeUsageTypes, setHoursForFields }) => {
+const TimeFields = ({ timeUsageTypes, setHoursForFields, plannedHours }) => {
     
   const { t } = useTranslation(); // Hook to access translations
 
@@ -13,19 +13,31 @@ const TimeFields = ({ timeUsageTypes, setHoursForFields }) => {
   };
 
 
+
+  console.log(timeUsageTypes)
+
+  function getBudgetByGUID(guid) {
+    const item = plannedHours.find(obj => obj.GUID === guid);
+    return item ? item.Budget : 0;
+  }
+
   return (
     <View style={styles.container}>
       {timeUsageTypes.map((field, index) => (
         <View style={styles.row} key={index}>
-          <Text style={styles.label}>{field.Title}</Text>
+          <Text style={styles.label}>
+            {field.Title} {getBudgetByGUID(field.TimeUsageTypeGuid) > 0 && `(${t("plannedHour")}: ${getBudgetByGUID(field.TimeUsageTypeGuid)})`}
+          </Text>
           <TextInput
-           style={styles.input} 
-           onChangeText={(text) => handleInputChange(text, field.TimeUsageTypeGuid)}
-           />
+            style={styles.input} 
+            onChangeText={(text) => handleInputChange(text, field.TimeUsageTypeGuid)}
+          />
         </View>
       ))}
     </View>
   );
+  
+  
 };
 
 const styles = StyleSheet.create({

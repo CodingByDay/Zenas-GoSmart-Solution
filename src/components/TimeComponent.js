@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useTranslation } from 'react-i18next'; 
 
-const TimeComponent = () => {
+const TimeComponent = ({ setDateTime }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -21,6 +21,9 @@ const TimeComponent = () => {
   const handleDateConfirm = (date) => {
     setSelectedDate(date);
     hideDatePicker();
+
+    setDateTime(mergeDateTime(date, selectedTime));
+
   };
 
   const showTimePicker = () => {
@@ -34,9 +37,26 @@ const TimeComponent = () => {
   const handleTimeConfirm = (time) => {
     setSelectedTime(time);
     hideTimePicker();
+
+    setDateTime(mergeDateTime(selectedDate, time));
+
+  };
+
+  // Function to merge date and time
+  const mergeDateTime = (date, time) => {
+    const mergedDateTime = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      time.getHours(),
+      time.getMinutes(),
+      time.getSeconds()
+    );
+    return mergedDateTime;
   };
 
   return (
+    <View>
     <View style={styles.container}>
       <Text style={styles.labelRow}>{t("implementedTime")}</Text>
       <TouchableOpacity onPress={showDatePicker}>
@@ -61,6 +81,8 @@ const TimeComponent = () => {
         onCancel={hideTimePicker}
       />
     </View>
+    </View>
+    
   );
 };
 

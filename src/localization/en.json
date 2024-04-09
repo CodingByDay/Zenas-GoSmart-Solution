@@ -29,7 +29,8 @@
     "version": "Version",
     "saveTask": "Save",
     "finishTask": "Finish",
-    "implementedTime": "Implemented"
+    "implementedTime": "Implemented",
+    "plannedHour": "Planned"
 
 
 }

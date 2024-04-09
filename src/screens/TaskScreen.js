@@ -16,13 +16,12 @@ const TaskScreen = ({ route }) => {
   const { t } = useTranslation(); // Hook to access translations
   const { taskId } = route.params;
   const [date, setDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showDateTimePicker, setShowDateTimePicker] = useState(false);
   const [enabled, setEnabled] = useState(true);
   const [problemDescription, setProblemDescription] = useState('');
   const [workDescription, setWorkDescription] = useState('');
   const [agreementDescription, setAgreementDescription] = useState('');
   const [timeFields, setTimeFields] = useState([]);
+  const [implementedTime, setImplementedTime] = useState(null);
 
   useEffect(() => {
 
@@ -30,7 +29,6 @@ const TaskScreen = ({ route }) => {
       try {
         const task = await getTaskDetails(taskId);
         setTask(task);
-        console.log(task)
         setProblemDescription(task.Description)
         const timeFields = await getTimeUsage();
         setTimeFields(timeFields);
@@ -108,6 +106,13 @@ const TaskScreen = ({ route }) => {
     }
   }
 
+
+  const setDateTime = (date) => {
+    setImplementedTime(date);
+  }
+
+
+
   return (
 
     <KeyboardAvoidingView 
@@ -122,6 +127,7 @@ const TaskScreen = ({ route }) => {
       <TimeFields
       timeUsageTypes={timeFields}
       setHoursForFields = {setHoursForFields}
+      plannedHours={task.PlannedAndUsedHoursWithBillingInfo}
       />
 
 
@@ -141,7 +147,7 @@ const TaskScreen = ({ route }) => {
       */
       }
 
-        <TimeComponent />
+        <TimeComponent setDateTime={setDateTime} />
 
         <View style={styles.bottomButtonsContainer}>
           <View style={styles.row}>
