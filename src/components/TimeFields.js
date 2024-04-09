@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next'; 
 
@@ -6,13 +6,29 @@ const TimeFields = ({ timeUsageTypes, setHoursForFields, plannedHours }) => {
     
   const { t } = useTranslation(); // Hook to access translations
 
+
+
+  useEffect(() => {
+    // Call handleInputChange when defaultValue is set
+    timeUsageTypes.forEach(field => {
+      const defaultValue = getUsedByGUID(field.TimeUsageTypeGuid);
+      if (defaultValue !== 0) {
+        handleInputChange(defaultValue.toString(), field.TimeUsageTypeGuid);
+      }
+    });
+  }, []); // Empty dependency array means this effect runs only once, after the first render
+
+
   const handleInputChange = (text, guid) => {
     // Call the function passed from the parent component
 
     setHoursForFields(text, guid);
   };
 
-
+  function getUsedByGUID(guid) {
+    const item = plannedHours.find(obj => obj.GUID === guid);
+    return item ? item.Used : 0;
+  }
 
 
   function getBudgetByGUID(guid) {
@@ -30,6 +46,7 @@ const TimeFields = ({ timeUsageTypes, setHoursForFields, plannedHours }) => {
           <TextInput
             style={styles.input} 
             onChangeText={(text) => handleInputChange(text, field.TimeUsageTypeGuid)}
+            defaultValue={getUsedByGUID(field.TimeUsageTypeGuid) !== 0 ? getUsedByGUID(field.TimeUsageTypeGuid).toString() : ""}
           />
         </View>
       ))}
