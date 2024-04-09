@@ -156,9 +156,26 @@ const TaskScreen = ({ route }) => {
             onPress={() => {finishTask()}}
             >
 
-            <Icon name="save-alt" size={30}  color={'white'} />
+
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+              <Text style={styles.buttonText}>{t("finishTask")}</Text>
+              <Icon name="send-and-archive" size={30}  color={'white'} />
+            </View>
+
             </TouchableOpacity>
 
+            <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => {finishTask()}}
+            >
+
+
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+              <Text style={styles.buttonText}>{t("saveTask")}</Text>
+              <Icon name="save-alt" size={30}  color={'white'} />
+            </View>
+
+            </TouchableOpacity>
 
           </View>
         </View>
@@ -168,6 +185,18 @@ const TaskScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+
+  iconButton: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'center'
+  },
+
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    marginLeft: 5, // You can adjust the spacing between the icon and text
+  },
   container: {
     flex: 1,
     color: 'black',

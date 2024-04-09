@@ -26,8 +26,9 @@
     "wrongInput": "Wrong input provided.",
     "alert": "Alert",
     "error": "Error has occured.",
-    "version": "Version"
-
+    "version": "Version",
+    "saveTask": "Save",
+    "finishTask": "Finish"
 
 
 

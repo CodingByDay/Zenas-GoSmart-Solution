@@ -26,8 +26,8 @@
     "wrongInput": "Nepravilni podatki.",
     "alert": "Obvestilo",
     "error": "Prišlo je do napake.",
-    "version": "Verzija"
-
-
+    "version": "Verzija",
+    "saveTask": "Shrani",
+    "finishTask": "Zaključi"
 
 }
