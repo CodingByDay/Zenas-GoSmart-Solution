@@ -30,6 +30,7 @@ const TaskScreen = ({ route }) => {
       try {
         const task = await getTaskDetails(taskId);
         setTask(task);
+        console.log(task)
         setProblemDescription(task.Description)
         const timeFields = await getTimeUsage();
         setTimeFields(timeFields);
@@ -141,7 +142,7 @@ const TaskScreen = ({ route }) => {
       }
 
         <TimeComponent />
-        
+
         <View style={styles.bottomButtonsContainer}>
           <View style={styles.row}>
 
