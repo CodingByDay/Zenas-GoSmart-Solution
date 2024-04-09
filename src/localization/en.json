@@ -28,10 +28,8 @@
     "error": "Error has occured.",
     "version": "Version",
     "saveTask": "Save",
-    "finishTask": "Finish"
-
-
-
+    "finishTask": "Finish",
+    "implementedTime": "Implemented"
 
 
 }

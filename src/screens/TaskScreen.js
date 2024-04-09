@@ -6,9 +6,10 @@ import { getRootUrl, saveRootUrl } from '../storage/Persistence';
 import { getTaskDetails, getTimeUsage, finishTaskCall } from '../api/api';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import TaskTime from '../components/TaskTime';
 import ButtonGroup from '../components/ButtonGroup';
 import TimeFields from '../components/TimeFields';
+import TimeComponent from '../components/TimeComponent';
+
 const TaskScreen = ({ route }) => {
   const navigation = useNavigation();
   const [task, setTask] = useState('');
@@ -139,7 +140,8 @@ const TaskScreen = ({ route }) => {
       */
       }
 
-
+        <TimeComponent />
+        
         <View style={styles.bottomButtonsContainer}>
           <View style={styles.row}>
 
@@ -174,11 +176,13 @@ const TaskScreen = ({ route }) => {
               <Text style={styles.buttonText}>{t("saveTask")}</Text>
               <Icon name="save-alt" size={30}  color={'white'} />
             </View>
-
+          
             </TouchableOpacity>
-
+        
           </View>
         </View>
+
+        
       </ScrollView>
     </KeyboardAvoidingView>
   );

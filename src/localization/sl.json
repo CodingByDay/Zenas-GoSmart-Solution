@@ -28,6 +28,7 @@
     "error": "Prišlo je do napake.",
     "version": "Verzija",
     "saveTask": "Shrani",
-    "finishTask": "Zaključi"
+    "finishTask": "Zaključi",
+    "implementedTime": "Izvedeno"
 
 }
