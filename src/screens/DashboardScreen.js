@@ -59,33 +59,55 @@ const DashboardScreen = ({ navigation }) => {
       ),
     });
   }, [navigation]);
-
   const renderTaskItem = ({ item }) => {
     const isSelected = item.Guid === selectedTaskId;
     const plannedDate = new Date(item.PlannedDate);
     const isFuture = plannedDate > new Date();
     const isToday = plannedDate.toDateString() === new Date().toDateString();
+    const isWithinOneWeek = plannedDate <= new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
+    let iconColor, textColor;
+    
+    if (isFuture) {
+        iconColor = 'gray'; // Gray for tasks planned for one week ahead
+        textColor = 'white';
+    } else if (isToday) {
+        iconColor = 'black'; // Black for tasks planned for today
+        textColor = 'white'; // Font color is white for black background
+    } else {
+        iconColor = 'red'; // Red for tasks planned in the past
+        textColor = 'white'; // Font color is white for red background
+    }
 
-    const iconColor = isFuture || isToday ? 'green' : 'red';
+    const options = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false // Use 24-hour format
+    };
+
+    const formattedDate = plannedDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    const timeString = plannedDate.getHours() === 0 && plannedDate.getMinutes() === 0 ? '' : plannedDate.toLocaleTimeString('sl-SI', options);
 
     return (
-      <TouchableOpacity onPress={() => handleTaskSelection(item.Guid)} style={[styles.taskContainer, isSelected && styles.selectedTask]}>
-        <View style={styles.taskInfoRow}>
-          <Text style={styles.taskInfoLabel}>{t('clientProperty')}</Text>
-          <Text style={styles.taskInfoValue}>{item.Client}</Text>
-        </View>
-        <View style={styles.taskInfoRow}>
-          <Text style={styles.taskInfoLabel}>{t('descriptionProperty')}</Text>
-          <Text style={styles.taskInfoValue}>{item.Description}</Text>
-        </View>
-        <View style={styles.taskInfoRow}>
-          <Text style={styles.taskInfoLabel}>{t('plannedDateProperty')}</Text>
-          <Text style={styles.taskInfoValue}>{plannedDate.toISOString().split('T')[0]}</Text>
-          <Icon name="access-time" size={30}  color={'black'}/>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleTaskSelection(item.Guid)} style={[styles.taskContainer, isSelected && styles.selectedTask, { backgroundColor: iconColor }]}>
+            <View style={styles.taskInfoRow}>
+                <Text style={[styles.taskInfoLabel, { color: textColor }]}>{t('clientProperty')}</Text>
+                <Text style={[styles.taskInfoValue, { color: textColor }]}>{item.Client}</Text>
+            </View>
+            <View style={styles.taskInfoRow}>
+                <Text style={[styles.taskInfoLabel, { color: textColor }]}>{t('descriptionProperty')}</Text>
+                <Text style={[styles.taskInfoValue, { color: textColor }]}>{item.Description}</Text>
+            </View>
+            <View style={styles.taskInfoRow}>
+                <Text style={[styles.taskInfoLabel, { color: textColor }]}>{t('plannedDateProperty')}</Text>
+                <Text style={[styles.taskInfoValue, { color: textColor }]}>
+                    {formattedDate} {timeString && timeString}
+                </Text>
+                <Icon name="access-time" size={30} color={textColor} />
+            </View>
+        </TouchableOpacity>
     );
-  };
+};
+
 
   return (
     <View style={styles.container}>
@@ -120,8 +142,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   selectedTask: {
-    backgroundColor: 'rgba(8, 26, 69, 0.5)',
-  },
+    borderWidth: 2, // Change the width of the border as needed
+    borderColor: '#081a45', // Change the color of the border as needed
+},
   taskInfoRow: {
     flexDirection: 'row',
     color: 'black',
