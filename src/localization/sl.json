@@ -30,6 +30,7 @@
     "saveTask": "Shrani",
     "finishTask": "Zaključi",
     "implementedTime": "Izvedeno",
+    "plannedTime": "Planirano",
     "plannedHour": "Planirano"
 
 }

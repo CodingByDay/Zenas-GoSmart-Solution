@@ -73,6 +73,7 @@ const TimeComponent = ({ setDateTime }) => {
         onConfirm={handleDateConfirm}
         onCancel={hideDatePicker}
       />
+
       <DateTimePickerModal
         isVisible={isTimePickerVisible}
         mode="time"
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     },
     container: {
       flex: 1,
-      justifyContent: "center",
+      justifyContent: "flex-end",
       alignItems: "center",
       flexDirection: "row",
       gap: 10,

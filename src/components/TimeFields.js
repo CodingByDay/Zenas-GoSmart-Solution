@@ -14,7 +14,6 @@ const TimeFields = ({ timeUsageTypes, setHoursForFields, plannedHours }) => {
 
 
 
-  console.log(timeUsageTypes)
 
   function getBudgetByGUID(guid) {
     const item = plannedHours.find(obj => obj.GUID === guid);

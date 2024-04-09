@@ -9,6 +9,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ButtonGroup from '../components/ButtonGroup';
 import TimeFields from '../components/TimeFields';
 import TimeComponent from '../components/TimeComponent';
+import TimePlanned from '../components/TimePlanned';
+
 
 const TaskScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -29,6 +31,7 @@ const TaskScreen = ({ route }) => {
       try {
         const task = await getTaskDetails(taskId);
         setTask(task);
+        console.log(task)
         setProblemDescription(task.Description)
         const timeFields = await getTimeUsage();
         setTimeFields(timeFields);
@@ -146,7 +149,7 @@ const TaskScreen = ({ route }) => {
         <TaskTime />
       */
       }
-
+        <TimePlanned plannedDate = {task.PlannedAt} />
         <TimeComponent setDateTime={setDateTime} />
 
         <View style={styles.bottomButtonsContainer}>
