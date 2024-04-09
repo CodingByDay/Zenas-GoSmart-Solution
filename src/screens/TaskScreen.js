@@ -31,7 +31,9 @@ const TaskScreen = ({ route }) => {
       try {
         const task = await getTaskDetails(taskId);
         setTask(task);
-        setProblemDescription(task.Description)
+        setProblemDescription(task.Description);
+
+        setWorkDescription(task.WorkPerformed);
         const timeFields = await getTimeUsage();
         setTimeFields(timeFields);
       } catch (error) {

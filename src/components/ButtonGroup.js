@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import { useTranslation } from 'react-i18next'; 
 
@@ -15,10 +15,17 @@ const ButtonToggle = ({ label, onPress, isActive }) => {
   );
 };
 
-const ToggleGroup = ( { setDescriptionStates, workDescription, problemDescription, setActiveState, enabled } ) => {
+const ToggleGroup = ({ setDescriptionStates, workDescription, problemDescription, setActiveState, enabled }) => {
   const { t } = useTranslation(); 
   const [activeButton, setActiveButton] = useState('workDescription'); // Set 'problemDescription' as the initial active button
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  
+  useEffect(() => {
+    // Set the input value to workDescription when workDescription is not null
+    if (workDescription !== null) {
+      setInputValue(workDescription);
+    }
+  }, [workDescription]);
 
   const handleButtonPress = (label) => {
     if(label === "workDescription") {
@@ -40,31 +47,16 @@ const ToggleGroup = ( { setDescriptionStates, workDescription, problemDescriptio
   return (
     <View>
       <View style={styles.buttonsContainer}>
-
-
         <ButtonToggle
           label={t('workDescription')}
           onPress={() => handleButtonPress('workDescription')}
           isActive={activeButton === 'workDescription'}
         />
-
         <ButtonToggle
           label={t('problemDescription')}
           onPress={() => handleButtonPress('problemDescription')}
           isActive={activeButton === 'problemDescription'}
         />
-
-       
-
-        {/* 
-       <ButtonToggle
-          label={t('problemDescription')}
-          onPress={() => handleButtonPress('problemDescription')}
-          isActive={activeButton === 'problemDescription'}
-        />
-        */}
-
-
       </View>
       <TextInput
         style={styles.multiLineInput}
