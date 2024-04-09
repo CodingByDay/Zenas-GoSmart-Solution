@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView,
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next'; 
 import { getRootUrl, saveRootUrl } from '../storage/Persistence';
-import { getTaskDetails, getTimeUsage, finishTaskCall } from '../api/api';
+import { getTaskDetails, getTimeUsage, finishTaskCall, saveTaskCall } from '../api/api';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ButtonGroup from '../components/ButtonGroup';
@@ -31,7 +31,6 @@ const TaskScreen = ({ route }) => {
       try {
         const task = await getTaskDetails(taskId);
         setTask(task);
-        console.log(task)
         setProblemDescription(task.Description)
         const timeFields = await getTimeUsage();
         setTimeFields(timeFields);
@@ -83,13 +82,55 @@ const TaskScreen = ({ route }) => {
     toUpdate.forEach(field => {
       usedHours.push({TimeUsageTypeGuid: field.TimeUsageTypeGuid, UsedHours: field.Used})
     });
-    const response = await finishTaskCall(task.TaskGuid, workDescription, usedHours);
+    const response = await finishTaskCall(task.TaskGuid, workDescription, usedHours, implementedTime);
     if (response == "OK") {
       navigation.navigate("Dashboard");
     } else {
       Alert.alert(t('alert'), t('error'));
     }
   }
+
+
+  const saveTask = async () => {
+
+    let toUpdate = [];
+    let defined = 0;
+    timeFields.forEach(field => {
+      if (field.Used !== undefined && field.Used !== '') {
+        const used = field.Used;
+        const decimalValue = parseFloat(used);     
+        if (isNaN(decimalValue)) {
+            Alert.alert(t('alert'), t('wrongInput'));
+            return; 
+        } else {
+            defined += 1;
+            toUpdate.push(field);
+        }
+      } 
+    });
+
+    if(defined === 0) {
+      Alert.alert(t('alert'), t('wrongInput'));
+      return;
+    }
+
+    let usedHours = [];
+    toUpdate.forEach(field => {
+      usedHours.push({TimeUsageTypeGuid: field.TimeUsageTypeGuid, UsedHours: field.Used})
+    });
+    const response = await saveTaskCall(task.TaskGuid, workDescription, usedHours);
+    if (response == "OK") {
+      navigation.navigate("Dashboard");
+    } else {
+      Alert.alert(t('alert'), t('error'));
+    }
+  }
+
+
+
+
+
+
 
   const setActiveState = (activeButton) => {
     if(activeButton === "workDescription") {
@@ -111,7 +152,9 @@ const TaskScreen = ({ route }) => {
 
 
   const setDateTime = (date) => {
-    setImplementedTime(date);
+    const formattedDate = date.toISOString().slice(0, 19); // Truncate milliseconds
+  
+    setImplementedTime(formattedDate);
   }
 
 
@@ -150,6 +193,7 @@ const TaskScreen = ({ route }) => {
       */
       }
         <TimePlanned plannedDate = {task.PlannedAt} />
+
         <TimeComponent setDateTime={setDateTime} />
 
         <View style={styles.bottomButtonsContainer}>
@@ -178,7 +222,7 @@ const TaskScreen = ({ route }) => {
 
             <TouchableOpacity
             style={styles.iconButton}
-            onPress={() => {finishTask()}}
+            onPress={() => {saveTask()}}
             >
 
 

@@ -103,11 +103,37 @@ const getTimeUsage = async () => {
     return [];
   }
 };
-const finishTaskCall = async (taskGuid, notes, usedHours) => {
+const finishTaskCall = async (taskGuid, notes, usedHours, implementedTime) => {
   try {
     const sessionId = await getSessionId();
     const response = await axios.post(
       `${baseURL}/nfxapi/task/finish`,
+      {
+        TaskGuid: taskGuid,
+        Notes: notes,
+        ImplementedDate: implementedTime,
+        UsedHours: usedHours
+      },
+      {
+        headers: {
+          Authorization: sessionId // Assuming you need to send the session ID as Authorization header
+        }
+      }
+    );
+    if (response.data === 'OK') {
+      return 'OK';
+    } else {
+      return 'Error'; 
+    }
+  } catch (error) {
+    return 'Error'; 
+  }
+};
+const saveTaskCall = async (taskGuid, notes, usedHours) => {
+  try {
+    const sessionId = await getSessionId();
+    const response = await axios.post(
+      `${baseURL}/nfxapi/task/save`,
       {
         TaskGuid: taskGuid,
         Notes: notes,
@@ -129,5 +155,4 @@ const finishTaskCall = async (taskGuid, notes, usedHours) => {
   }
 };
 
-
-  export { checkSessionValidity, login, getOwnTasks, getTaskDetails, getTimeUsage, finishTaskCall, setInit};
+  export { checkSessionValidity, login, getOwnTasks, getTaskDetails, getTimeUsage, finishTaskCall, saveTaskCall, setInit};
