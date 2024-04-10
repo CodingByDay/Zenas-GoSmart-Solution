@@ -79,6 +79,11 @@ const DashboardScreen = ({ navigation }) => {
     navigation.navigate('Login');
   }
 
+
+  const saveQuit = async () => {
+    navigation.navigate('Login');
+  }
+
   // Custom header for DashboardScreen
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -87,14 +92,22 @@ const DashboardScreen = ({ navigation }) => {
           <Icon name="logout" size={30} color="black" />
         </TouchableOpacity>
       ),
+      headerRight: () => (
+        <TouchableOpacity onPress={() => saveQuit()} style={styles.saveButton}>
+          <Icon name="co-present" size={30} color="black" />
+        </TouchableOpacity>
+      ),
     });
   }, [navigation]);
+  
   const renderTaskItem = ({ item }) => {
+
     const isSelected = item.Guid === selectedTaskId;
     const plannedDate = new Date(item.PlannedDate);
     const isFuture = plannedDate > new Date();
     const isToday = plannedDate.toDateString() === new Date().toDateString();
     const isWithinOneWeek = plannedDate <= new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
+
     let iconColor, textColor;
     
     if (isFuture) {
@@ -143,15 +156,15 @@ const hideDatePicker = () => {
 
 const filterTasksByDate = (date) => {
     // Convert selectedDate to ISO string format for comparison
-    const selectedDateString = date.toISOString().split('T')[0];
+    const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
 
     // Filter tasks based on the selected date
     const filteredTasks = tasks.filter(task => {
       // Convert task PlannedDate to ISO string format for comparison
-      const taskDateString = new Date(task.PlannedDate).toISOString().split('T')[0];
+      const taskDateString = new Date(task.PlannedDate).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
       
       // Return true if task PlannedDate matches selected date
-      return taskDateString === selectedDateString;
+      return taskDateString == formattedDate;
     });
 
     setTasks(filteredTasks);
@@ -210,6 +223,9 @@ const styles = StyleSheet.create({
   },
   backButton: {
     paddingLeft: 5,
+  },
+  saveButton: {
+    paddingRight: 5,
   },
   container: {
     flex: 1,
