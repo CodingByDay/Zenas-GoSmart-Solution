@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Text, Modal, TouchableWithoutFeedback } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Text, Modal, TouchableWithoutFeedback, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTranslation } from 'react-i18next'; 
 
@@ -26,6 +26,7 @@ const Search = ({ cancel, onSearchChange, setDateFilter }) => {
       setDateFilter("");
       // Reset
       setShowDialog(false);
+      setSearchQuery(null);
     } 
   };
 

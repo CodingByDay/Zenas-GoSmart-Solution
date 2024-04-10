@@ -17,7 +17,7 @@ const DashboardScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true); 
   const [dateFilter, setDateFilterMode] = useState('');
   const [isDateFilterActive, setIsDateFilterActive] = useState(false);
-
+  const [dateFilterValue, setDateFilterValue] = useState(null);
 
   const fetchTasks = useCallback(async () => {
     let tasksApi = await getOwnTasks();
@@ -36,24 +36,36 @@ const DashboardScreen = ({ navigation }) => {
     if(filter != "") {
     setDateFilterMode(filter);
     } else {
+      setDateFilterValue(null)
       setIsLoading(true);
       let tasksApi = await getOwnTasks();
       setTasks(tasksApi);
       setIsLoading(false);
       setIsDateFilterActive(false);
-
     }
   }
 
   const handleSearchChange = (query) => {
-    setSearchQuery(query);
+    filterTasks(query)
   };
 
-  const filteredTasks = tasks.filter((task) =>
-    Object.values(task).some((value) =>
-      typeof value === 'string' ? value.toLowerCase().includes(searchQuery.toLowerCase()) : false
-    )
-  );
+
+
+  const filterTasks = async (query) => {
+    setIsLoading(true);
+    let tasksApi = await getOwnTasks();
+
+    const filteredTasks = tasksApi.filter((task) =>
+      Object.values(task).some((value) =>
+        typeof value === 'string' ? value.toLowerCase().includes(query.toLowerCase()) : false
+      )
+    );   
+    setTasks(filteredTasks);
+    if(dateFilterValue !=null) {
+      filterTasksByDate(dateFilterValue)
+    }
+    setIsLoading(false);
+  };
 
   const handleTaskSelection = (taskId) => {
     setSelectedTaskId(taskId);
@@ -146,6 +158,7 @@ const filterTasksByDate = (date) => {
 }
 
 const handleDateConfirm = (date) => {
+  setDateFilterValue(date)
   filterTasksByDate(date)
   setDateFilterMode("")
   setIsDateFilterActive(true); // Set date filter active
@@ -175,7 +188,7 @@ const handleDateConfirm = (date) => {
         </View>
       ) : (
       <FlatList
-        data={filteredTasks}
+        data={tasks}
         renderItem={renderTaskItem}
         keyExtractor={(item, index) => (item && item.Guid) ? item.Guid : index.toString()}
         contentContainerStyle={styles.listContainer}
