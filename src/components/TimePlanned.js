@@ -21,7 +21,7 @@ const TimePlanned = ({ plannedDate }) => {
     <View>
       <View style={styles.container}>
         <Text style={styles.labelRow}>{t("plannedTime")}</Text>
-        <TouchableOpacity onPress={() => console.log("Date Picker clicked")}>
+        <TouchableOpacity>
           <Text style={styles.label}>{selectedDate.toLocaleDateString()}</Text>
         </TouchableOpacity>
       </View>

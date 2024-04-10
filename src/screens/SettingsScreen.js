@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next'; 
 import { getRootUrl, saveRootUrl } from '../storage/Persistence';
@@ -33,7 +33,9 @@ const SettingsScreen = () => {
   };
 
 
-
+  const type = (text) => { 
+    setServerUrl(text);
+  }
   return (
     <View style={styles.container}>
 
@@ -44,7 +46,7 @@ const SettingsScreen = () => {
           placeholder={t('serverUrlPlaceholder')}
           value={serverUrl}
           placeholderTextColor={'black'}
-          onChangeText={text => setServerUrl(text)}
+          onChangeText={text => type(text)} 
         />
       </View>
       <TouchableOpacity

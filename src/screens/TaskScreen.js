@@ -127,10 +127,6 @@ const TaskScreen = ({ route }) => {
       } 
     });
 
-    if(defined === 0) {
-      Alert.alert(t('alert'), t('wrongInput'));
-      return;
-    }
 
     let usedHours = [];
     toUpdate.forEach(field => {
