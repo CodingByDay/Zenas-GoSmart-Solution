@@ -24,6 +24,8 @@ const TaskScreen = ({ route }) => {
   const [agreementDescription, setAgreementDescription] = useState('');
   const [timeFields, setTimeFields] = useState([]);
   const [implementedTime, setImplementedTime] = useState(null);
+  const [render, setRender] = useState("");
+
 
   useEffect(() => {
 
@@ -32,10 +34,10 @@ const TaskScreen = ({ route }) => {
         const task = await getTaskDetails(taskId);
         setTask(task);
         setProblemDescription(task.Description);
-
         setWorkDescription(task.WorkPerformed);
         const timeFields = await getTimeUsage();
         setTimeFields(timeFields);
+        setRender(generateGUID())
       } catch (error) {
         return;
       }
@@ -43,8 +45,17 @@ const TaskScreen = ({ route }) => {
     fetchTask();
   }, []); 
 
+
+  function generateGUID() {
+    // Generate a random hexadecimal string
+    const randomHex = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    
+    // Concatenate random hexadecimal strings to form a GUID
+    return `${randomHex()}${randomHex()}-${randomHex()}-${randomHex()}-${randomHex()}-${randomHex()}${randomHex()}${randomHex()}`;
+}
+
+
   const setHoursForFields = (text, guid) => {
- 
     const fields = timeFields.map(field => {
       if (field.TimeUsageTypeGuid === guid) {
         return { ...field, Used: text };
@@ -98,9 +109,11 @@ const TaskScreen = ({ route }) => {
     let toUpdate = [];
     let defined = 0;
     timeFields.forEach(field => {
+
       if (field.Used !== undefined && field.Used !== '') {
         const used = field.Used;
         const decimalValue = parseFloat(used);     
+
         if (isNaN(decimalValue)) {
             Alert.alert(t('alert'), t('wrongInput'));
             return; 
@@ -176,6 +189,7 @@ const TaskScreen = ({ route }) => {
       timeUsageTypes={timeFields}
       setHoursForFields = {setHoursForFields}
       plannedHours={task.PlannedAndUsedHoursWithBillingInfo}
+      render={render}
       />
 
 
