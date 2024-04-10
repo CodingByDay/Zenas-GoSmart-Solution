@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView, KeyboardAvoidingView, Alert, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next'; 
 import { getRootUrl, saveRootUrl } from '../storage/Persistence';
@@ -25,6 +25,7 @@ const TaskScreen = ({ route }) => {
   const [timeFields, setTimeFields] = useState([]);
   const [implementedTime, setImplementedTime] = useState(null);
   const [render, setRender] = useState("");
+  const [isLoading, setIsLoading] = useState(true); 
 
 
   useEffect(() => {
@@ -38,7 +39,9 @@ const TaskScreen = ({ route }) => {
         const timeFields = await getTimeUsage();
         setTimeFields(timeFields);
         setRender(generateGUID())
+        setIsLoading(false); // Once all data is fetched, set loading state to false
       } catch (error) {
+        setIsLoading(false); // Hide loader in case of error too
         return;
       }
     };
@@ -181,6 +184,13 @@ const TaskScreen = ({ route }) => {
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     keyboardVerticalOffset={Platform.OS === 'ios' ? -100 : 20} 
     >
+
+
+      {isLoading ? ( // Show loader if still loading
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator color={'#081a45'} size={32} />
+        </View>
+      ) : (
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 
 
@@ -254,12 +264,19 @@ const TaskScreen = ({ route }) => {
 
         
       </ScrollView>
+
+      )}
+        
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   iconButton: {
     flexDirection: 'row',
     gap: 10,
