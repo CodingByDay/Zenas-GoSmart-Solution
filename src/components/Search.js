@@ -3,9 +3,10 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Text, Modal, TouchableWi
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTranslation } from 'react-i18next'; 
 
-const Search = ({ onSearchChange }) => {
+const Search = ({ cancel, onSearchChange, setDateFilter }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDialog, setShowDialog] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState(null);
   const { t } = useTranslation(); // Hook to access translations
 
   // Function to handle text input change
@@ -16,15 +17,24 @@ const Search = ({ onSearchChange }) => {
 
   // Function to handle option selection
   const handleOptionSelect = (option) => {
+    if(!cancel) {
     // Handle option selection here
-    console.log('Selected option:', option);
+    setDateFilter(option);
     // Close the dialog after option selection
     setShowDialog(false);
+    } else {
+      setDateFilter("");
+      // Reset
+      setShowDialog(false);
+    } 
   };
+
+  const iconName = cancel ? "cancel" : "date-range";
 
   return (
     <View style={styles.container}>
       <Icon name="search" size={30} color={'black'} />
+      
       <TextInput
         style={styles.input}
         onChangeText={handleTextChange} // Call handleTextChange when text changes
@@ -32,9 +42,13 @@ const Search = ({ onSearchChange }) => {
         placeholderTextColor={'black'}
         placeholder={t('searchPlaceholder')}
       />
-      <TouchableOpacity onPress={() => setShowDialog(true)}>
-        <Icon name="date-range" size={30} color={'black'} />
+
+      <TouchableOpacity onPress={() => handleOptionSelect('date')}>
+        <Icon name={iconName} size={30} color={'black'} />
       </TouchableOpacity>
+
+{/* Currently not neccessary.
+      
       <Modal
         animationType="slide"
         transparent={true}
@@ -46,16 +60,18 @@ const Search = ({ onSearchChange }) => {
             <View style={styles.modalView}>
               <TouchableOpacity onPress={() => handleOptionSelect('date')} style={styles.modalOption}>
                 <Icon name="today" size={24} color="black" />
-                <Text style={styles.modalText}>Date</Text>
+                <Text style={styles.modalText}>{t("timeDialogExactDate")}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleOptionSelect('dateRange')} style={styles.modalOption}>
                 <Icon name="date-range" size={24} color="black" />
-                <Text style={styles.modalText}>Date Range</Text>
+                <Text style={styles.modalText}>{t("timeDialogRange")}</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback> 
       </Modal>
+*/}
+     
     </View>
   );
 };

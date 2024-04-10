@@ -1,11 +1,13 @@
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator, Alert } from 'react-native';
 import DashboardActions from '../components/DashboardActions';
 import React, { useEffect, useState, useCallback, useLayoutEffect } from 'react';
 import { getOwnTasks, getTaskDetails } from '../api/api';
 import Search from '../components/Search';
 import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { saveSessionId } from '../storage/Persistence';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { initializeApp, changeLanguage, getSavedLanguage, saveSessionId } from '../storage/Persistence';
+
 
 const DashboardScreen = ({ navigation }) => {
   const { t } = useTranslation();
@@ -13,6 +15,9 @@ const DashboardScreen = ({ navigation }) => {
   const [tasks, setTasks] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true); 
+  const [dateFilter, setDateFilterMode] = useState('');
+  const [isDateFilterActive, setIsDateFilterActive] = useState(false);
+
 
   const fetchTasks = useCallback(async () => {
     let tasksApi = await getOwnTasks();
@@ -22,11 +27,23 @@ const DashboardScreen = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', fetchTasks);
-
     return unsubscribe;
   }, [navigation, fetchTasks]);
+  
 
 
+  const setDateFilter = async (filter) => {
+    if(filter != "") {
+    setDateFilterMode(filter);
+    } else {
+      setIsLoading(true);
+      let tasksApi = await getOwnTasks();
+      setTasks(tasksApi);
+      setIsLoading(false);
+      setIsDateFilterActive(false);
+
+    }
+  }
 
   const handleSearchChange = (query) => {
     setSearchQuery(query);
@@ -108,13 +125,49 @@ const DashboardScreen = ({ navigation }) => {
         </TouchableOpacity>
     );
 };
+const hideDatePicker = () => {
+  setDateFilterMode("")
+};
 
+const filterTasksByDate = (date) => {
+    // Convert selectedDate to ISO string format for comparison
+    const selectedDateString = date.toISOString().split('T')[0];
+
+    // Filter tasks based on the selected date
+    const filteredTasks = tasks.filter(task => {
+      // Convert task PlannedDate to ISO string format for comparison
+      const taskDateString = new Date(task.PlannedDate).toISOString().split('T')[0];
+      
+      // Return true if task PlannedDate matches selected date
+      return taskDateString === selectedDateString;
+    });
+
+    setTasks(filteredTasks);
+}
+
+const handleDateConfirm = (date) => {
+  filterTasksByDate(date)
+  setDateFilterMode("")
+  setIsDateFilterActive(true); // Set date filter active
+
+};
 
   return (
     <View style={styles.container}>
 
-      
-      <Search onSearchChange={handleSearchChange} />
+  
+            {dateFilter == 'date' && (
+              <DateTimePickerModal
+                isVisible={true}
+                mode="date"
+                onConfirm={handleDateConfirm}
+                onCancel={hideDatePicker}
+              />
+            )}
+
+       
+
+      <Search cancel = {isDateFilterActive} setDateFilter={setDateFilter} onSearchChange={handleSearchChange} />
 
       {isLoading ? ( // Show loader if still loading
         <View style={styles.loaderContainer}>
