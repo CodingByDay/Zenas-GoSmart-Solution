@@ -31,7 +31,10 @@
     "finishTask": "Finish",
     "implementedTime": "Implemented",
     "plannedTime": "Planned",
-    "plannedHour": "Planned"
+    "plannedHour": "Planned",
+    "timeDialogClose": "Cancel",
+    "timeDialogExactDate": "Date",
+    "timeDialogRange": "Time range"
 
 
 }

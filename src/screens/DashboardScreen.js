@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
 import DashboardActions from '../components/DashboardActions';
 import React, { useEffect, useState, useCallback, useLayoutEffect } from 'react';
 import { getOwnTasks, getTaskDetails } from '../api/api';
@@ -12,10 +12,12 @@ const DashboardScreen = ({ navigation }) => {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isLoading, setIsLoading] = useState(true); 
 
   const fetchTasks = useCallback(async () => {
     let tasksApi = await getOwnTasks();
     setTasks(tasksApi);
+    setIsLoading(false); // Once all data is fetched, set loading state to false
   }, []); // Empty dependency array to ensure it only runs once during component mount
 
   useEffect(() => {
@@ -37,9 +39,8 @@ const DashboardScreen = ({ navigation }) => {
   );
 
   const handleTaskSelection = (taskId) => {
-    if (taskId === selectedTaskId) {
-      navigation.navigate('Task', { taskId: taskId });
-    }
+    setSelectedTaskId(taskId);
+    navigation.navigate('Task', { taskId: taskId }); 
     setSelectedTaskId(taskId);
   };
 
@@ -88,7 +89,7 @@ const DashboardScreen = ({ navigation }) => {
     const timeString = plannedDate.getHours() === 0 && plannedDate.getMinutes() === 0 ? '' : plannedDate.toLocaleTimeString('sl-SI', options);
 
     return (
-        <TouchableOpacity onPress={() => handleTaskSelection(item.Guid)} style={[styles.taskContainer, isSelected && styles.selectedTask, { backgroundColor: iconColor }]}>
+        <TouchableOpacity onPress={() => handleTaskSelection(item.Guid)} style={[styles.taskContainer, { backgroundColor: iconColor }]}>
             <View style={styles.taskInfoRow}>
                 <Text style={[styles.taskInfoLabel, { color: textColor }]}>{t('clientProperty')}</Text>
                 <Text style={[styles.taskInfoValue, { color: textColor }]}>{item.Client}</Text>
@@ -111,7 +112,15 @@ const DashboardScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+
+      
       <Search onSearchChange={handleSearchChange} />
+
+      {isLoading ? ( // Show loader if still loading
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator color={'#081a45'} size={32} />
+        </View>
+      ) : (
       <FlatList
         data={filteredTasks}
         renderItem={renderTaskItem}
@@ -119,11 +128,20 @@ const DashboardScreen = ({ navigation }) => {
         contentContainerStyle={styles.listContainer}
         numColumns={1} // Set to 1 to display one item per row
       />
+
+      )}
+
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   backButton: {
     paddingLeft: 5,
   },

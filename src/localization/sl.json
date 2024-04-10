@@ -31,6 +31,8 @@
     "finishTask": "Zaključi",
     "implementedTime": "Izvedeno",
     "plannedTime": "Planirano",
-    "plannedHour": "Planirano"
-
+    "plannedHour": "Planirano",
+    "timeDialogClose": "Zapri",
+    "timeDialogExactDate": "Datum",
+    "timeDialogRange": "Obdobje"
 }
