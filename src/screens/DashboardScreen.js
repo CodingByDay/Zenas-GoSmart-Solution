@@ -106,11 +106,11 @@ const DashboardScreen = ({ navigation }) => {
   
   const renderTaskItem = ({ item }) => {
 
-    const isSelected = item.Guid === selectedTaskId;
     const plannedDate = new Date(item.PlannedDate);
-    const isFuture = plannedDate > new Date();
+    const plannedDateWithoutTime = new Date(plannedDate.getFullYear(), plannedDate.getMonth(), plannedDate.getDate());
+    const currentDateWithoutTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+    const isFuture = plannedDateWithoutTime > currentDateWithoutTime;
     const isToday = plannedDate.toDateString() === new Date().toDateString();
-    const isWithinOneWeek = plannedDate <= new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
 
     let iconColor, textColor;
     
