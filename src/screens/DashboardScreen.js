@@ -52,18 +52,22 @@ const DashboardScreen = ({ navigation }) => {
 
 
   const filterTasks = async (query) => {
+
     setIsLoading(true);
+
     let tasksApi = await getOwnTasks();
 
-    const filteredTasks = tasksApi.filter((task) =>
-      Object.values(task).some((value) =>
-        typeof value === 'string' ? value.toLowerCase().includes(query.toLowerCase()) : false
+    let filteredTasks = tasksApi.filter(task =>
+      Object.values(task).some(value =>
+          typeof value === 'string' && value.toLowerCase().includes(query.toLowerCase())
       )
-    );   
+    ); 
     setTasks(filteredTasks);
+
     if(dateFilterValue !=null) {
-      filterTasksByDate(dateFilterValue)
+      filterTasksByDate(dateFilterValue, filteredTasks)
     }
+
     setIsLoading(false);
   };
 
@@ -154,25 +158,25 @@ const hideDatePicker = () => {
   setDateFilterMode("")
 };
 
-const filterTasksByDate = (date) => {
+const filterTasksByDate = (date, filtered) => {
+
     // Convert selectedDate to ISO string format for comparison
     const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
 
     // Filter tasks based on the selected date
-    const filteredTasks = tasks.filter(task => {
+    const filteredTasks = filtered.filter(task => {
       // Convert task PlannedDate to ISO string format for comparison
       const taskDateString = new Date(task.PlannedDate).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
       
       // Return true if task PlannedDate matches selected date
       return taskDateString == formattedDate;
     });
-
     setTasks(filteredTasks);
 }
 
 const handleDateConfirm = (date) => {
   setDateFilterValue(date)
-  filterTasksByDate(date)
+  filterTasksByDate(date, tasks)
   setDateFilterMode("")
   setIsDateFilterActive(true); // Set date filter active
 
@@ -181,7 +185,6 @@ const handleDateConfirm = (date) => {
   return (
     <View style={styles.container}>
 
-  
             {dateFilter == 'date' && (
               <DateTimePickerModal
                 isVisible={true}
@@ -190,9 +193,7 @@ const handleDateConfirm = (date) => {
                 onCancel={hideDatePicker}
               />
             )}
-
-       
-
+      
       <Search cancel = {isDateFilterActive} setDateFilter={setDateFilter} onSearchChange={handleSearchChange} />
 
       {isLoading ? ( // Show loader if still loading
