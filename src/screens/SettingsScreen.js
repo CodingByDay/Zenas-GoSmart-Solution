@@ -47,13 +47,14 @@ const SettingsScreen = () => {
           value={serverUrl}
           placeholderTextColor={'black'}
           onChangeText={text => type(text)} 
+          autoCapitalize="none" 
+          keyboardType="url"    
         />
       </View>
       <TouchableOpacity
             style={styles.saveButton} 
             onPress={handleSaveSettings}
             >
-
             <Icon name="save-alt" size={30}  color={'white'} />
       </TouchableOpacity>
 

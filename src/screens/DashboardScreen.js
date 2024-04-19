@@ -50,7 +50,6 @@ const DashboardScreen = ({ navigation }) => {
   };
 
 
-
   const filterTasks = async (query) => {
 
     setIsLoading(true);
@@ -62,6 +61,7 @@ const DashboardScreen = ({ navigation }) => {
           typeof value === 'string' && value.toLowerCase().includes(query.toLowerCase())
       )
     ); 
+    
     setTasks(filteredTasks);
 
     if(dateFilterValue !=null) {
