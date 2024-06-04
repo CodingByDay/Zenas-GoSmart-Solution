@@ -109,6 +109,7 @@ const finishTaskCall = async (taskGuid, notes, usedHours, implementedTime) => {
     const response = await axios.post(
       `${baseURL}/nfxapi/task/finish`,
       {
+        SessionID: sessionId,
         TaskGuid: taskGuid,
         Notes: notes,
         ImplementedDate: implementedTime,
@@ -135,6 +136,7 @@ const saveTaskCall = async (taskGuid, notes, usedHours) => {
     const response = await axios.post(
       `${baseURL}/nfxapi/task/save`,
       {
+        SessionID: sessionId,
         TaskGuid: taskGuid,
         Notes: notes,
         UsedHours: usedHours
