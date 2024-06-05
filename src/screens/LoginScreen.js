@@ -3,9 +3,10 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Animated, A
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { initializeApp, changeLanguage, getSavedLanguage, saveSessionId } from '../storage/Persistence';
+import { initializeApp, changeLanguage, getSavedLanguage, saveSessionId, saveUsername, getRootUrl, getUsername } from '../storage/Persistence';
 import { checkSessionValidity, login, setInit } from '../api/api';
 import SplashScreen from 'react-native-splash-screen';
+import * as Sentry from '@sentry/react-native';
 
 
 
@@ -18,6 +19,8 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const shakeAnimation = useRef(new Animated.Value(0)).current;
   const [loader, setLoader] = useState(false);
+  const [rootUrl, setRootUrl] = useState('');
+
   useEffect( () => {
 
 
@@ -70,6 +73,7 @@ const LoginScreen = () => {
         }, 1000); 
         // Login successful, do something with the sessionId
         await saveSessionId(sessionId);
+        await saveUsername(username);
         navigation.navigate('Dashboard')
       } else {
         // Login failed
@@ -81,6 +85,20 @@ const LoginScreen = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchSentryData = async () => {
+      const fetchedUsername = await getUsername();
+      const fetchedRootUrl = await getRootUrl();
+      setRootUrl(fetchedRootUrl);
+      setUsername(fetchedUsername);
+    }
+
+    const scope = Sentry.getGlobalScope();
+    scope.setUser({username : username === null ? "notLoggedIn" : username});
+    scope.setContext('rootUrl', {rootUrl: rootUrl === null ? "noRootUrl" : rootUrl});
+
+    fetchSentryData();
+  }, [])
   
   return (
     

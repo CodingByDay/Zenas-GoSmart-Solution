@@ -16,6 +16,14 @@ import { useTranslation } from 'react-i18next';
 import 'intl-pluralrules';
 import { RNSScreen } from 'react-native-screens';
 import 'react-native-gesture-handler';
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://fd840c73bcb52c0410dd2829de7bbcd7@o4507304617836544.ingest.de.sentry.io/4507373865664592',
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // enableSpotlight: __DEV__,
+});
 
 
 

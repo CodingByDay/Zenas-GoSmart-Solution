@@ -40,6 +40,25 @@ export const getSessionId = async () => {
     }
   };
 
+  // Function to get the username
+  export const getUsername = async () => {
+      try {
+        const username = await AsyncStorage.getItem('username');
+        return username ? username : null;
+      } catch (error) {
+        return "";
+      }
+  };
+
+  // Function to save the username
+  export const saveUsername = async (username) => {
+      try {
+        await AsyncStorage.setItem('username', username);
+      } catch (error) {
+        return "";
+      }
+  };
+
   export const getRootUrl = async () => {
     try {
       const rootUrl = await AsyncStorage.getItem('rootUrl');

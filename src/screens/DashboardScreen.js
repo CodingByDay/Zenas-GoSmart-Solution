@@ -6,7 +6,7 @@ import Search from '../components/Search';
 import { useTranslation } from 'react-i18next';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { initializeApp, changeLanguage, getSavedLanguage, saveSessionId } from '../storage/Persistence';
+import { initializeApp, changeLanguage, getSavedLanguage, saveSessionId, getSessionId, saveUsername } from '../storage/Persistence';
 
 
 const DashboardScreen = ({ navigation }) => {
@@ -79,6 +79,7 @@ const DashboardScreen = ({ navigation }) => {
 
 
   const logout = async () => {
+    await saveUsername("");
     await saveSessionId("")
     navigation.navigate('Login');
   }
@@ -86,7 +87,7 @@ const DashboardScreen = ({ navigation }) => {
 
   const saveQuit = async () => {
     navigation.navigate('Login');
-  }
+  } 
 
   // Custom header for DashboardScreen
   React.useLayoutEffect(() => {
@@ -135,7 +136,7 @@ const DashboardScreen = ({ navigation }) => {
     const timeString = plannedDate.getHours() === 0 && plannedDate.getMinutes() === 0 ? '' : plannedDate.toLocaleTimeString('sl-SI', options);
 
     return (
-        <TouchableOpacity onPress={() => handleTaskSelection(item.Guid)} style={[styles.taskContainer, { backgroundColor: iconColor }]}>
+        <TouchableOpacity onPress={() => {handleTaskSelection(item.Guid); test();}} style={[styles.taskContainer, { backgroundColor: iconColor }]}>
             <View style={styles.taskInfoRow}>
                 <Text style={[styles.taskInfoLabel, { color: textColor }]}>{t('clientProperty')}</Text>
                 <Text style={[styles.taskInfoValue, { color: textColor }]}>{item.Client}</Text>
