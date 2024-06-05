@@ -136,7 +136,7 @@ const DashboardScreen = ({ navigation }) => {
     const timeString = plannedDate.getHours() === 0 && plannedDate.getMinutes() === 0 ? '' : plannedDate.toLocaleTimeString('sl-SI', options);
 
     return (
-        <TouchableOpacity onPress={() => {handleTaskSelection(item.Guid); test();}} style={[styles.taskContainer, { backgroundColor: iconColor }]}>
+        <TouchableOpacity onPress={() => handleTaskSelection(item.Guid)} style={[styles.taskContainer, { backgroundColor: iconColor }]}>
             <View style={styles.taskInfoRow}>
                 <Text style={[styles.taskInfoLabel, { color: textColor }]}>{t('clientProperty')}</Text>
                 <Text style={[styles.taskInfoValue, { color: textColor }]}>{item.Client}</Text>
